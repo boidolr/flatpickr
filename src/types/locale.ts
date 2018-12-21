@@ -106,6 +106,7 @@ export type CustomLocale = {
 export type key =
   | "ar"
   | "at"
+  | "az"
   | "be"
   | "bg"
   | "bn"
@@ -121,6 +122,7 @@ export type key =
   | "et"
   | "fa"
   | "fi"
+  | "fo"
   | "fr"
   | "gr"
   | "he"
@@ -128,9 +130,11 @@ export type key =
   | "hr"
   | "hu"
   | "id"
+  | "is"
   | "it"
   | "ja"
   | "ko"
+  | "km"
   | "kz"
   | "lt"
   | "lv"
@@ -155,4 +159,5 @@ export type key =
   | "tr"
   | "uk"
   | "vn"
-  | "zh";
+  | "zh"
+  | "zh_tw";

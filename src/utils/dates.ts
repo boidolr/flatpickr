@@ -22,9 +22,11 @@ export const createDateFormatter = ({
   frmt: string,
   overrideLocale?: Locale
 ): string => {
-  if (config.formatDate !== undefined) return config.formatDate(dateObj, frmt);
-
   const locale = overrideLocale || l10n;
+
+  if (config.formatDate !== undefined) {
+    return config.formatDate(dateObj, frmt, locale);
+  }
 
   return frmt
     .split("")
@@ -42,9 +44,12 @@ export const createDateFormatter = ({
 export const createDateParser = ({ config = defaults, l10n = english }) => (
   date: Date | string | number,
   givenFormat?: string,
-  timeless?: boolean
+  timeless?: boolean,
+  customLocale?: Locale
 ): Date | undefined => {
   if (date !== 0 && !date) return undefined;
+
+  const locale = customLocale || l10n;
 
   let parsedDate: Date | undefined;
   const date_orig = date;
@@ -99,7 +104,7 @@ export const createDateParser = ({ config = defaults, l10n = english }) => (
 
         ops.forEach(
           ({ fn, val }) =>
-            (parsedDate = fn(parsedDate as Date, val, l10n) || parsedDate)
+            (parsedDate = fn(parsedDate as Date, val, locale) || parsedDate)
         );
       }
 
@@ -149,7 +154,7 @@ export const getWeek = (givenDate: Date) => {
   date.setHours(0, 0, 0, 0);
 
   // Thursday in current week decides the year.
-  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7));
 
   // January 4 is always in week 1.
   var week1 = new Date(date.getFullYear(), 0, 4);
@@ -160,7 +165,7 @@ export const getWeek = (givenDate: Date) => {
     Math.round(
       ((date.getTime() - week1.getTime()) / 86400000 -
         3 +
-        (week1.getDay() + 6) % 7) /
+        ((week1.getDay() + 6) % 7)) /
         7
     )
   );
